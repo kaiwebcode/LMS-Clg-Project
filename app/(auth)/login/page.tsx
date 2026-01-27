@@ -14,6 +14,11 @@ import { Label } from "@/components/ui/label";
 import { GithubIcon } from "lucide-react";
 import { useState } from "react";
 
+/**
+ * Defaults page of the application
+ * @returns 
+ */
+
 export default function LoginPage() {
   const [agreed, setAgreed] = useState(false);
 
