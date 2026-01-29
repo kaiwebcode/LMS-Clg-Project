@@ -9,7 +9,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
       
       {/* Back button */}
       <Link href="/" className="absolute left-4 top-4">
-        <Button variant="ghost" className="gap-2">
+        <Button variant="outline" className="gap-2">
           <ArrowLeft className="size-4" />
           Back
         </Button>
