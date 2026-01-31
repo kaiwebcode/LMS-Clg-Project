@@ -72,14 +72,13 @@ export default function LoginForm() {
             router.push(`/verify-request?email=${email}`);
           },
           onError: (err) => {
-            console.error(err)
+            console.error(err);
             toast.error("Error sending email");
           },
         },
       });
     });
   }
-
 
   return (
     <Card>
@@ -150,7 +149,7 @@ export default function LoginForm() {
             />
 
             <Button
-              disabled={emailPending}
+              disabled={!agreed || emailPending}
               className="w-full"
               onClick={signInWithEmail}
             >
