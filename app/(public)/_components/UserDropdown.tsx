@@ -11,15 +11,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { authClient } from "@/lib/auth-client";
 import { ArrowDown, LogOutIcon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FaHome } from "react-icons/fa";
 import { GiBookCover } from "react-icons/gi";
 import { IoAnalytics } from "react-icons/io5";
-import { toast } from "sonner";
-import { useCallback } from "react";
+import { useSignOut } from "@/hooks/use-signout";
 
 interface UserDropdownProps {
   name: string;
@@ -28,31 +25,16 @@ interface UserDropdownProps {
 }
 
 export function UserDropdown({ email, name, image }: UserDropdownProps) {
-  const router = useRouter();
 
-  const signOut = useCallback(async () => {
-    await authClient.signOut({
-      fetchOptions: {
-        onSuccess: () => {
-          router.push("/");
-          toast.success("Logout successfully.");
-        },
-        onError: () => {
-          toast.error("Failed to logout!");
-        },
-      },
-    });
-  }, [router]);
+  const signOut = useSignOut();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <Button variant="ghost" size="icon" className="rounded-full px-8 py-4">
           <Avatar>
             <AvatarImage src={image} alt={name} />
-            <AvatarFallback>
-              {name?.charAt(0)?.toUpperCase()}
-            </AvatarFallback>
+            <AvatarFallback>{name?.charAt(0)?.toUpperCase()}</AvatarFallback>
           </Avatar>
           <ArrowDown size={10} />
         </Button>
@@ -82,7 +64,7 @@ export function UserDropdown({ email, name, image }: UserDropdownProps) {
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <Link href="/dashboard">
+            <Link href="/admin">
               <IoAnalytics /> Dashboard
             </Link>
           </DropdownMenuItem>
