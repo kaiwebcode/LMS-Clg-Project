@@ -4,6 +4,27 @@ export const courseLevels = ["Beginner", "Intermediate", "Advanced"] as const;
 
 export const courseStatus = ["Draft", "Published", "Archived"] as const;
 
+export const courseCategories = [
+  "Development",
+  "Business",
+  "Marketing",
+  "IT & Software",
+  "Data Science",
+  "Computer Science",
+  "Cyber Security",
+  "Cloud Computing",
+  "Artificial Intelligence",
+  "Blockchain",
+  "Web Development",
+  "Mobile Development",
+  "Game Development",
+  "Software Engineering",
+  "Personal Development",
+  "Teaching & Academics",
+  "Programming",
+  "Design",
+] as const;
+
 export const courseSchema = z.object({
   title: z
     .string()
@@ -26,7 +47,9 @@ export const courseSchema = z.object({
     message: "Level must be required",
   }),
 
-  category: z.string(),
+  category: z.enum(courseCategories, {
+    message: "Category must be required",
+  }),
   smallDescription: z
     .string()
     .min(3, { message: "Small description must be at least 3 characters long" })
