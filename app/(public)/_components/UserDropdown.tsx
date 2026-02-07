@@ -40,8 +40,8 @@ export function UserDropdown({ email, name, image }: UserDropdownProps) {
         </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel className="flex flex-col">
+      <DropdownMenuContent align="end" className="min-w-40">
+        <DropdownMenuLabel className="flex flex-col"> 
           <span className="text-sm font-medium truncate">{name}</span>
           <span className="text-xs text-muted-foreground truncate">
             {email}
