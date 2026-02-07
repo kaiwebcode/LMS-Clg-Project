@@ -37,6 +37,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Editor from "@/components/Text-Editor/Editor";
 
 export default function CourseCreatePage() {
   // define your form
@@ -158,11 +159,12 @@ export default function CourseCreatePage() {
                   <FormItem className="w-full">
                     <FormLabel>Course Description</FormLabel>
                     <FormControl>
-                      <Textarea
+                      {/* <Textarea
                         placeholder="Course Description"
                         className="min-h-35"
                         {...field}
-                      />
+                      /> */}
+                      <Editor field={field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
