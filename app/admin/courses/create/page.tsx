@@ -38,6 +38,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Editor from "@/components/Text-Editor/Editor";
+import Upload from "@/components/file-uploader/Upload";
 
 export default function CourseCreatePage() {
   // define your form
@@ -159,11 +160,6 @@ export default function CourseCreatePage() {
                   <FormItem className="w-full">
                     <FormLabel>Course Description</FormLabel>
                     <FormControl>
-                      {/* <Textarea
-                        placeholder="Course Description"
-                        className="min-h-35"
-                        {...field}
-                      /> */}
                       <Editor field={field} />
                     </FormControl>
                     <FormMessage />
@@ -174,11 +170,12 @@ export default function CourseCreatePage() {
               <FormField
                 control={form.control}
                 name="fileKey"
-                render={({ field }) => (
+                render={({ }) => (
                   <FormItem className="w-full">
                     <FormLabel>Thumbnail Image</FormLabel>
                     <FormControl>
-                      <Input placeholder="Thumbnail Url" {...field} />
+                      <Upload  />
+                      {/* <Input placeholder="Thumbnail Url" {...field} /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>
