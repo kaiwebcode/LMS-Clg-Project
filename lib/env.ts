@@ -10,9 +10,13 @@ export const env = createEnv({
     AUTH_GOOGLE_CLIENT_SECRET: z.string().min(1),
     AUTH_GITHUB_CLIENT_ID: z.string().min(1),
     AUTH_GITHUB_CLIENT_SECRET: z.string().min(1),
-    RESEND_API_KEY: z.string(),
-    ARCJET_KEY: z.string().min(1)
+    // RESEND_API_KEY: z.string(),
+    ARCJET_KEY: z.string().min(1),
     // NODE_ENV: z.enum(["development", "test", "production"]),
+
+    GMAIL_USER: z.string().email(),
+    GMAIL_APP_PASS: z.string().min(16),
+
   },
  
   //   client: {
