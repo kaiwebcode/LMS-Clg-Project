@@ -1,12 +1,13 @@
 import { cn } from "@/lib/utils";
-import { Cloud, ImageIcon } from "lucide-react";
+import { CloudUpload, ImageIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import Image from "next/image";
 
 export function RenderEmptyState({ isDragActive }: { isDragActive: boolean }) {
   return (
     <div className="text-center">
       <div className="flex items-center mx-auto justify-center size-12 rounded-full bg-zinc-800/90 mb-4">
-        <Cloud
+        <CloudUpload
           className={cn(
             "size-6  text-muted-foreground",
             isDragActive && "text-primary",
@@ -27,7 +28,7 @@ export function RenderEmptyState({ isDragActive }: { isDragActive: boolean }) {
       </Button>
     </div>
   );
-};
+}
 
 export const RenderErrorState = () => {
   return (
@@ -40,7 +41,32 @@ export const RenderErrorState = () => {
         Something went Wrong!!
       </p>
       {/* <p className="text-xl mt-3 text-muted-foreground">Click or drag file to retry</p> */}
-      <Button type="button" className="mt-4">Retry File Selected</Button>
+      <Button type="button" className="mt-4">
+        Retry File Selected
+      </Button>
     </div>
   );
 };
+
+export function RenderUploadedState({ previewUrl }: { previewUrl: string }) {
+  return (
+    <div>
+      <Image 
+        width={240}
+        height={240}
+        src={previewUrl}
+        alt="Upload file"
+        className="object-contain p-2 w-60 h-60"
+      />
+
+      <Button
+        type="button"
+        variant="destructive"
+        size="icon"
+        className={cn("absolute top-4 right-4")}
+      >
+        <XIcon className="size-4"/>
+      </Button>
+    </div>
+  );
+}
