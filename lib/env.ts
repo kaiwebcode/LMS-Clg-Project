@@ -17,8 +17,17 @@ export const env = createEnv({
     GMAIL_USER: z.string().email(),
     GMAIL_APP_PASS: z.string().min(16),
 
+    AWS_ACCESS_KEY_ID: z.string().min(1),
+    AWS_SECRET_ACCESS_KEY: z.string().min(1),
+    AWS_ENDPOINT_URL_S3: z.string().min(1),
+    // AWS_ENDPOINT_URL_IAM: z.string().min(1),
+    AWS_REGION: z.string().min(1),
   },
- 
+
+  client: {
+    NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES: z.string().min(1),
+  },
+
   //   client: {
   //     NEXT_PUBLIC_APP_URL: z.string().url(),
   //   },
@@ -29,5 +38,8 @@ export const env = createEnv({
   //     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   //   },
 
-  experimental__runtimeEnv: {},
+  experimental__runtimeEnv: {
+    NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES:
+      process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES,
+  },
 });
