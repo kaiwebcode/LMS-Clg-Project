@@ -122,7 +122,7 @@ export default function CourseCreatePage() {
 
                 <Button
                   type="button"
-                  className="w-fit"
+                  className="w-fit cursor-pointer whitespace-nowrap"
                   onClick={() => {
                     const titleValue = form.getValues("title");
                     const slug = slugify(titleValue);
@@ -170,11 +170,11 @@ export default function CourseCreatePage() {
               <FormField
                 control={form.control}
                 name="fileKey"
-                render={({ }) => (
+                render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel>Thumbnail Image</FormLabel>
                     <FormControl>
-                      <Upload  />
+                      <Upload onChange={field.onChange} value={field.value} />
                       {/* <Input placeholder="Thumbnail Url" {...field} /> */}
                     </FormControl>
                     <FormMessage />
@@ -323,7 +323,7 @@ export default function CourseCreatePage() {
                   </FormItem>
                 )}
               />
-              <Button type="submit">
+              <Button type="submit" className="cursor-pointer">
                 Create Course <PlusIcon className="ml-1" size={16} />{" "}
               </Button>
             </form>
