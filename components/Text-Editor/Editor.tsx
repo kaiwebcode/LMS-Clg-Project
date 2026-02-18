@@ -31,7 +31,7 @@ export default function Editor({ field }: EditorProps) {
 
     content: field.value
       ? JSON.parse(field.value)
-      : "<p>Hello world ❤️</p>",
+      : "<p>Put your Course Description Here...</p>",
 
     onUpdate: ({ editor }) => {
       field.onChange(JSON.stringify(editor.getJSON()));

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { CloudUpload, ImageIcon, XIcon } from "lucide-react";
+import { CloudUpload, ImageIcon, Loader2, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 
@@ -23,7 +23,7 @@ export function RenderEmptyState({ isDragActive }: { isDragActive: boolean }) {
         Supported formats: JPG, PNG, PDF, DOCX. <br />
         Max file size: 10MB.
       </p>
-      <Button type="button" variant="default" className="mt-4">
+      <Button type="button" variant="default" className="mt-4 cursor-pointer">
         Select Files
       </Button>
     </div>
@@ -48,25 +48,72 @@ export const RenderErrorState = () => {
   );
 };
 
-export function RenderUploadedState({ previewUrl }: { previewUrl: string }) {
+export function RenderUploadedState({
+  previewUrl,
+  isDeleting,
+  handleRemoveFile,
+}: {
+  previewUrl: string;
+  isDeleting: boolean;
+  handleRemoveFile: () => void;
+}) {
   return (
     <div>
-      <Image 
+      <Image
         width={240}
         height={240}
         src={previewUrl}
         alt="Upload file"
-        className="object-contain p-2 w-60 h-60"
+        className="object-contain p-2"
       />
 
       <Button
-        type="button"
-        variant="destructive"
+        // type="button"
         size="icon"
-        className={cn("absolute top-4 right-4")}
+        variant="destructive"
+        className={cn("absolute top-4 right-4 cursor-pointer", isDeleting && "cursor-not-allowed")}
+        onClick={handleRemoveFile}
+        disabled={isDeleting}
       >
-        <XIcon className="size-4"/>
+        {isDeleting ? (
+          <Loader2 className="size-4 animate-spin" />
+        ) : (
+          <XIcon className="size-4" />
+        )}
       </Button>
+    </div>
+  );
+}
+
+export function RenderUploadingState({
+  progress,
+  file,
+}: {
+  progress: number;
+  file: File;
+}) {
+  return (
+    <div className="text-center flex justify-center items-center flex-col gap-4">
+      <p className="text-sm text-muted-foreground mt-2">{`Uploading ${file.name}...`}</p>
+      <div className="relative w-full h-2 bg-muted-foreground rounded-full overflow-hidden">
+        <div
+          className="absolute top-0 left-0 h-full bg-primary transition-all duration-300"
+          style={{ width: `${progress}%` }}
+        />
+
+        {/* add progress number */}
+        {/* <div
+          className="absolute top-0 left-0 h-full bg-primary transition-all duration-300"
+          style={{ width: `${progress}%` }}
+        />
+        <p className="text-sm text-muted-foreground mt-2">{`${progress}%`}</p> */}
+
+        {/* add spinner */}
+        {/* <div
+          className="absolute top-0 left-0 h-full bg-primary transition-all duration-300"
+          style={{ width: `${progress}%` }}
+        /> */}
+      </div>
     </div>
   );
 }
