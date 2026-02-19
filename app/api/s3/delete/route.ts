@@ -1,9 +1,45 @@
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { NextResponse } from "next/server";
 import { S3 } from "@/lib/S3Client";
+import { detectBot, fixedWindow } from "@arcjet/next";
+import aj from "@/lib/arcjet";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+
+const arcjet = aj
+  .withRule(
+    detectBot({
+      mode: "LIVE",
+      allow: [],
+    }),
+  )
+  .withRule(
+    fixedWindow({
+      mode: "LIVE",
+      window: "1m",
+      max: 5,
+    }),
+  );
 
 export async function DELETE(request: Request) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
   try {
+    const decision = await arcjet.protect(request, {
+      fingerprint: session?.user.id as string,
+    });
+
+    if (decision.isDenied()) {
+      return NextResponse.json(
+        {
+          error: "Bot Detected",
+        },
+        { status: 429 },
+      );
+    }
+
     const body = await request.json();
     const fileKey = body.fileKey;
 
