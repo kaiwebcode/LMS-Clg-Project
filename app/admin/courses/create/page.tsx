@@ -13,9 +13,10 @@ import {
   courseLevels,
   courseSchema,
   CourseSchemaInput,
+  CourseSchemaType,
   courseStatus,
 } from "@/lib/zodSchema";
-import { ArrowLeft, PlusIcon, SparkleIcon } from "lucide-react";
+import { ArrowLeft, Loader2, PlusIcon, SparkleIcon } from "lucide-react";
 import Link from "next/link";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,8 +40,16 @@ import {
 } from "@/components/ui/select";
 import Editor from "@/components/Text-Editor/Editor";
 import Upload from "@/components/file-uploader/Upload";
+import { useTransition } from "react";
+import { tryCatch } from "@/hooks/try-catch";
+import { createCourse } from "./action";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function CourseCreatePage() {
+  const [isPending, setTransition] = useTransition();
+  const router = useRouter();
+
   // define your form
   const form = useForm<CourseSchemaInput>({
     resolver: zodResolver(courseSchema),
@@ -59,11 +68,31 @@ export default function CourseCreatePage() {
   });
 
   // define your submit handler
-  const onSubmit: SubmitHandler<CourseSchemaInput> = (data) => {
+  const onSubmit: SubmitHandler<CourseSchemaInput> = (values) => {
     // At runtime, data is already validated & coerced by Zod
-    const validatedData = courseSchema.parse(data);
+    // const validatedData = courseSchema.parse(data);
 
-    console.log("Validated data:", validatedData);
+    // console.log("Validated data:", validatedData);
+
+    setTransition(async () => {
+      const { data: result, error } = await tryCatch(
+        createCourse(values as CourseSchemaType),
+      );
+
+      if (error) {
+        toast.error("An unexpected error occurred while creating the course.");
+        console.error("Error creating course:", error);
+        return;
+      }
+
+      if (result.status === "success") {
+        toast.success("Course created successfully!");
+        form.reset();
+        router.push("/admin/courses");
+      } else {
+        toast.error(result.message || "Failed to create course.");
+      }
+    });
   };
 
   return (
@@ -90,7 +119,10 @@ export default function CourseCreatePage() {
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+            <form
+              className="space-y-8"
+              onSubmit={form.handleSubmit(onSubmit)}
+            >
               <FormField
                 control={form.control}
                 name="title"
@@ -324,7 +356,16 @@ export default function CourseCreatePage() {
                 )}
               />
               <Button type="submit" className="cursor-pointer">
-                Create Course <PlusIcon className="ml-1" size={16} />{" "}
+                {isPending ? (
+                  <>
+                    <span>Creating...</span>
+                    <Loader2 className="ml-2 h-4 w-4 animate-spin" />
+                  </>
+                ) : (
+                  <>
+                    Create Course <PlusIcon className="ml-1" size={16} />
+                  </>
+                )}
               </Button>
             </form>
           </Form>
