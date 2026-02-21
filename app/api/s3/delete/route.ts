@@ -3,8 +3,7 @@ import { NextResponse } from "next/server";
 import { S3 } from "@/lib/S3Client";
 import { detectBot, fixedWindow } from "@arcjet/next";
 import aj from "@/lib/arcjet";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { requireAdmin } from "@/app/data/admin/require-admin";
 
 const arcjet = aj
   .withRule(
@@ -22,10 +21,7 @@ const arcjet = aj
   );
 
 export async function DELETE(request: Request) {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
+    const session = await requireAdmin();
   try {
     const decision = await arcjet.protect(request, {
       fingerprint: session?.user.id as string,
