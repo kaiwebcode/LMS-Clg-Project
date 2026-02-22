@@ -5,9 +5,9 @@ import z from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3 } from "@/lib/S3Client";
-// import aj from "@/lib/arcjet";
-// import { detectBot, fixedWindow } from "@arcjet/next";
-// import { requireAdmin } from "@/app/data/admin/require-admin";
+import aj from "@/lib/arcjet";
+import { detectBot, fixedWindow } from "@arcjet/next";
+import { requireAdmin } from "@/app/data/admin/require-admin";
 
 export const fileUploadSchema = z.object({
   fileName: z.string().min(1, {
@@ -20,23 +20,22 @@ export const fileUploadSchema = z.object({
   isImage: z.boolean(),
 });
 
-// const arcjet = aj
-//   .withRule(
-//     detectBot({
-//       mode: "LIVE",
-//       allow: [],
-//     }),
-//   )
-//   .withRule(
-//     fixedWindow({
-//       mode: "LIVE",
-//       window: "1m",
-//       max: 5,
-//     }),
-//   );
+const arcjet = aj
+  .withRule(
+    detectBot({
+      mode: "LIVE",
+      allow: [],
+    }),
+  )
+  .withRule(
+    fixedWindow({
+      mode: "LIVE",
+      window: "1m",
+      max: 5,
+    }),
+  );
 
 export async function POST(request: Request) {
-
   // const session = await requireAdmin();
 
   try {
