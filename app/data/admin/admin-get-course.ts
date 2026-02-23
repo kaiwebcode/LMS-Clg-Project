@@ -1,35 +1,34 @@
-import { prisma } from "@/lib/db";
+import "server-only";
+
 import { requireAdmin } from "./require-admin";
+import { prisma } from "@/lib/db";
+import { notFound } from "next/navigation";
 
-export async function adminGetCourses() {
-    await requireAdmin();
+export async function adminGetCourse(courseId: string) {
+  await requireAdmin();
 
-    const data = await prisma.course.findMany({
+  if (!courseId) return notFound();
 
-        orderBy: {
-            createdAt: "desc"
-        },
+  const data = await prisma.course.findUnique({
+    where: { id: courseId },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      fileKey: true,
+      price: true,
+      duration: true,
+      level: true,
+      status: true,
+      slug: true,
+      smallDescription: true,
+      category: true,
+    },
+  });
 
-        select: {
-            id: true,
-            title: true,
-            smallDescription: true,
-            duration: true,
-            level: true,
-            status: true,
-            price: true,
-            fileKey: true,
-            slug: true,
-            // category: true,
-            // createdAt: true,
-            // updatedAt: true
-        }
-    });
+  if (!data) return notFound();
 
-    return data;
+  return data;
 }
 
-
-export type AdminCoursesType = Awaited<ReturnType<typeof adminGetCourses>>;
-
-export type AdminCourseType = AdminCoursesType[number];
+export type AdminCourseSingularType = Awaited<ReturnType<typeof adminGetCourse>>;
