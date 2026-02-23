@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminCoursesType } from "@/app/data/admin/admin-get-course";
+import { AdminCoursesType } from "@/app/data/admin/admin-get-courses";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
