@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/sheet";
 import { authClient } from "@/lib/auth-client";
 import { UserDropdown } from "./UserDropdown";
+// import Image from "next/image";
+// import logoImg from "../../../public/logo.png.jpeg";
 
 const navigationItems = [
   { name: "Home", href: "/" },
@@ -28,7 +30,8 @@ export function Navbar() {
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
         {/* LOGO */}
         <Link href="/" className="text-2xl font-bold">
-          Kai-LMS
+          {/* <Image src={logoImg} alt="Kai-LMS" width={100} height={40} /> */}
+          Alpha-Lms
         </Link>
 
         {/* DESKTOP NAV */}

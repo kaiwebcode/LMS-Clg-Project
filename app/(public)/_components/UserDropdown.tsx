@@ -17,6 +17,8 @@ import { FaHome } from "react-icons/fa";
 import { GiBookCover } from "react-icons/gi";
 import { IoAnalytics } from "react-icons/io5";
 import { useSignOut } from "@/hooks/use-signout";
+import { authClient } from "@/lib/auth-client";
+import { useMemo } from "react";
 
 interface UserDropdownProps {
   name: string;
@@ -24,16 +26,50 @@ interface UserDropdownProps {
   image: string;
 }
 
-export function UserDropdown({ email, name, image }: UserDropdownProps) {
+type NavUserType = {
+  id?: string | null;
+  email?: string | null;
+  name?: string | null;
+  image?: string | null;
+};
 
+function getAvatarUrl(user: NavUserType) {
+  if (user.image) return user.image;
+  const seed = user.id || user.email || "user";
+  return `https://api.dicebear.com/9.x/avataaars/svg?seed=${encodeURIComponent(
+    seed,
+  )}`;
+}
+
+export function UserDropdown({ email, name, image }: UserDropdownProps) {
   const signOut = useSignOut();
+
+    const session = authClient.useSession();
+  
+    const user = session.data?.user;
+  
+    const displayName = useMemo(() => {
+      if (!user) return "User";
+      return user.name || user.email?.split("@")[0] || "User";
+    }, [user]);
+  
+    const avatarUrl = useMemo(() => {
+      if (!user) return "";
+      return getAvatarUrl(user);
+    }, [user]);
+  
+    if (session.isPending || !session.data?.session || !user) {
+      return null;
+    }
+  
+
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full px-8 py-4">
           <Avatar>
-            <AvatarImage src={image} alt={name} />
+            <AvatarImage src={image || avatarUrl} alt={name} />
             <AvatarFallback>{name?.charAt(0)?.toUpperCase()}</AvatarFallback>
           </Avatar>
           <ArrowDown size={10} />
@@ -42,7 +78,7 @@ export function UserDropdown({ email, name, image }: UserDropdownProps) {
 
       <DropdownMenuContent align="end" className="min-w-40">
         <DropdownMenuLabel className="flex flex-col"> 
-          <span className="text-sm font-medium truncate">{name}</span>
+          <span className="text-sm font-medium truncate">{name || displayName}</span>
           <span className="text-xs text-muted-foreground truncate">
             {email}
           </span>
