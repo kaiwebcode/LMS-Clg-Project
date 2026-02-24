@@ -9,6 +9,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EditCourseForm from "./_componennts/EditCourseForm";
 import { Loader2 } from "lucide-react";
+// import { CourseStructure } from "./_componennts/CourseStructure";
 
 type PageProps = {
   params: Promise<{
@@ -61,8 +62,7 @@ export default async function EditRoute({ params }: PageProps) {
             <CardHeader>
               <CardTitle>Course Structure</CardTitle>
               <CardDescription>
-                Define the structure of the course, such as sections, lectures,
-                etc.
+                Here you can edit the course structure, such as adding sections, lectures,
               </CardDescription>
               <h1 className="text-2xl text-center mt-10">
                 Pending Implementation of Course Structure Editor (Coming
@@ -70,6 +70,9 @@ export default async function EditRoute({ params }: PageProps) {
               </h1>
               <Loader2 className="mx-auto mt-8 h-8 w-8 animate-spin text-muted-foreground" />
             </CardHeader>
+            {/* <CardContent>
+                <CourseStructure />
+            </CardContent> */}
           </Card>
         </TabsContent>
       </Tabs>
