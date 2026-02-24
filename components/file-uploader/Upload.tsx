@@ -33,8 +33,8 @@ interface iAppProps {
 
 export default function Upload({ value, onChange }: iAppProps) {
   
-  const fileUrl = useConstructUrl(value || "");
-  
+  const fileUrl = useConstructUrl(value ?? "");
+
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
     file: null,
@@ -43,8 +43,8 @@ export default function Upload({ value, onChange }: iAppProps) {
     progress: 0,
     isDeleting: false,
     fileType: "image",
-    key: value,
-    objectUrl: fileUrl,
+    key: value ?? undefined,
+    objectUrl: value ? fileUrl : undefined,
   });
 
   const uploadFile = useCallback(
