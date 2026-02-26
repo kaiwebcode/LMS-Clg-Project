@@ -60,17 +60,20 @@ export default async function EditRoute({ params }: PageProps) {
         <TabsContent value="course-structure" className="mt-4">
           <Card>
             <CardHeader className="mb-6">
-              <CardTitle className="text-3xl font-semibold">Course Structure</CardTitle>
+              <CardTitle className="text-3xl font-semibold">
+                Course Structure
+              </CardTitle>
               <CardDescription>
-                Here you can edit the course structure, such as adding sections, lectures,
+                Here you can edit the course structure, such as adding sections,
+                lectures,
               </CardDescription>
               <h1 className="text-2xl text-center mt-10">
-              (A Some more changes, so it will take some time to implement...)
+                (A Some more changes, so it will take some time to implement...)
               </h1>
               <Loader2 className="mx-auto mt-4 h-10 w-10 animate-spin text-muted-foreground" />
             </CardHeader>
             <CardContent>
-                {/* <CourseStructure data={data} /> */}
+              {/* <CourseStructure data={data} /> */}
             </CardContent>
           </Card>
         </TabsContent>
