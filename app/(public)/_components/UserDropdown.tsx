@@ -44,25 +44,23 @@ function getAvatarUrl(user: NavUserType) {
 export function UserDropdown({ email, name, image }: UserDropdownProps) {
   const signOut = useSignOut();
 
-    const session = authClient.useSession();
-  
-    const user = session.data?.user;
-  
-    const displayName = useMemo(() => {
-      if (!user) return "User";
-      return user.name || user.email?.split("@")[0] || "User";
-    }, [user]);
-  
-    const avatarUrl = useMemo(() => {
-      if (!user) return "";
-      return getAvatarUrl(user);
-    }, [user]);
-  
-    if (session.isPending || !session.data?.session || !user) {
-      return null;
-    }
-  
+  const session = authClient.useSession();
 
+  const user = session.data?.user;
+
+  const displayName = useMemo(() => {
+    if (!user) return "User";
+    return user.name || user.email?.split("@")[0] || "User";
+  }, [user]);
+
+  const avatarUrl = useMemo(() => {
+    if (!user) return "";
+    return getAvatarUrl(user);
+  }, [user]);
+
+  if (session.isPending || !session.data?.session || !user) {
+    return null;
+  }
 
   return (
     <DropdownMenu>
@@ -77,8 +75,10 @@ export function UserDropdown({ email, name, image }: UserDropdownProps) {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="end" className="min-w-40">
-        <DropdownMenuLabel className="flex flex-col"> 
-          <span className="text-sm font-medium truncate">{name || displayName}</span>
+        <DropdownMenuLabel className="flex flex-col">
+          <span className="text-sm font-medium truncate">
+            {name || displayName}
+          </span>
           <span className="text-xs text-muted-foreground truncate">
             {email}
           </span>

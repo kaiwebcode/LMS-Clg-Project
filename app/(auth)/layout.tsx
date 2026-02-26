@@ -23,7 +23,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           href="/"
           className="mb-6 flex justify-center text-3xl font-bold tracking-tight"
         >
-          Kai-Regal
+          Alpha-Lms
         </Link>
 
         {children}
