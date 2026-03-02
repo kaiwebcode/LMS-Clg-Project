@@ -18,7 +18,7 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CSS } from "@dnd-kit/utilities";
 import { AdminCourseSingularType } from "@/app/data/admin/admin-get-course";
 import { cn } from "@/lib/utils";
@@ -37,6 +37,9 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { toast } from "sonner";
+import { reorderChapters, reorderLessons } from "../action";
+import NewChapterModal from "./NewChapterModal";
 
 interface iAppProps {
   data: AdminCourseSingularType;
@@ -67,6 +70,26 @@ export function CourseStructure({ data }: iAppProps) {
     })) || [];
 
   const [items, setItems] = useState(initialItems);
+
+  console.log(items);
+
+  useEffect(() => {
+    setItems((prevItems) => {
+      const updatedItems = data.chapter.map((chapter) => ({
+        id: chapter.id,
+        title: chapter.title,
+        order: chapter.position,
+        isOpen:
+          prevItems.find((item) => item.id === chapter.id)?.isOpen ?? true, // Add isOpen property to manage the open/close state of each chapter // default to true, you can set it to false if you want them to be closed by default
+        lessons: chapter.lessons.map((lesson) => ({
+          id: lesson.id,
+          title: lesson.title,
+          order: lesson.position,
+        })),
+      })) || [];
+      return updatedItems;
+    });
+  }, [data]);
 
   function SortableItem({ id, children, className, data }: SortableItemProps) {
     const {
@@ -100,16 +123,183 @@ export function CourseStructure({ data }: iAppProps) {
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
-    if (!over || active.id === over.id) return;
+    // if (!over || active.id === over.id) return;
 
-    setItems((items) => {
-      const oldIndex = items.findIndex((item) => item.id === active.id);
-      const newIndex = items.findIndex((item) => item.id === over.id);
+    // setItems((items) => {
+    //   const oldIndex = items.findIndex((item) => item.id === active.id);
+    //   const newIndex = items.findIndex((item) => item.id === over.id);
 
-      if (oldIndex === -1 || newIndex === -1) return items;
+    //   if (oldIndex === -1 || newIndex === -1) return items;
 
-      return arrayMove(items, oldIndex, newIndex);
-    });
+    //   return arrayMove(items, oldIndex, newIndex);
+    // });
+
+    if (!over || active.id === over.id) {
+      return;
+    }
+
+    const activeId = active.id;
+    const overId = over.id;
+    const activeType = active.data.current?.type as "chapter" | "lesson";
+    const overType = over.data.current?.type as "chapter" | "lesson";
+    const courseId = data.id;
+
+    if (activeType === "chapter") {
+      let targetChapterId = null;
+
+      if (overType === "chapter") {
+        targetChapterId = overId;
+      } else if (overType === "lesson") {
+        targetChapterId = over.data.current?.chapterId ?? null;
+      }
+
+      if (!targetChapterId) {
+        toast.error("Could not determine target chapter for reordering.");
+        return;
+      }
+
+      const oldIndex = items.findIndex((item) => item.id === activeId);
+      const newIndex = items.findIndex((item) => item.id === targetChapterId);
+
+      if (oldIndex === -1 || newIndex === -1) {
+        toast.error("Could not find chapter old/new index for reordering");
+
+        return;
+      }
+
+      const reordedLocalChapters = arrayMove(items, oldIndex, newIndex);
+
+      const updatedChapterForState = reordedLocalChapters.map(
+        (chapter, index) => ({
+          ...chapter,
+          order: index + 1, // Update the order based on the new index
+        }),
+      );
+
+      const previousItems = [...items];
+
+      setItems(updatedChapterForState);
+
+      if (courseId) {
+        const chaptersToUpdate = updatedChapterForState.map((chapter) => ({
+          id: chapter.id,
+          position: chapter.order,
+        }));
+
+        const reorderChaptersPromise = () =>
+          reorderChapters(courseId, chaptersToUpdate);
+
+        toast.promise(reorderChaptersPromise(), {
+          loading: "Reordering chapters...",
+          success: (result) => {
+            if (result.status === "success")
+              return result.message || "Chapters reordered successfully.";
+            throw new Error(result.message || "Failed to reorder chapters.");
+          },
+          error: () => {
+            setItems(previousItems);
+            return "Failed to reorder chapters.";
+          },
+        });
+      }
+
+      return;
+    }
+
+    if (activeType === "lesson" && overType === "lesson") {
+      const chapterId = active.data.current?.chapterId;
+      const overChapterId = over.data.current?.chapterId;
+
+      if (!chapterId || chapterId !== overChapterId) {
+        toast.error(
+          "Lessons move between chapters or invalid chapter ID is not allowed.",
+        );
+        return;
+      }
+
+      const chapterIndex = items.findIndex(
+        (chapter) => chapter.id === chapterId,
+      );
+
+      if (chapterIndex === -1) {
+        toast.error("Could not find chapter for the lesson being moved.");
+        return;
+      }
+
+      const chapterToUpdate = items[chapterIndex];
+      // const oldLessonIndex = chapterToUpdate.lessons.findIndex(
+      //   (lesson) => lesson.id === activeId,
+      // );
+
+      if (chapterIndex === -1) {
+        toast.error("Could not find chapter for the lesson being moved.");
+        return;
+      }
+
+      const oldLessonIndex = chapterToUpdate.lessons.findIndex(
+        (lesson) => lesson.id === activeId,
+      );
+
+      const newLessonIndex = chapterToUpdate.lessons.findIndex(
+        (lesson) => lesson.id === overId,
+      );
+
+      if (oldLessonIndex === -1 || newLessonIndex === -1) {
+        toast.error("Could not find lesson for reordering.");
+        return;
+      }
+
+      const reordedLessons = arrayMove(
+        chapterToUpdate.lessons,
+        oldLessonIndex,
+        newLessonIndex,
+      );
+
+      const updatedLessonForState = reordedLessons.map((lesson, index) => ({
+        ...lesson,
+        order: index + 1, // Update the order based on the new index
+      }));
+
+      const newItems = [...items];
+
+      newItems[chapterIndex] = {
+        ...chapterToUpdate,
+        lessons: updatedLessonForState,
+      };
+
+      const previousItems = [...items];
+
+      setItems(newItems);
+
+      if (courseId) {
+        const lessonsToUpdate = updatedLessonForState.map((lesson) => ({
+          id: lesson.id,
+          position: lesson.order,
+        }));
+
+        const reorderLessonsPromise = () =>
+          reorderLessons(chapterId, lessonsToUpdate, courseId);
+
+        toast.promise(reorderLessonsPromise(), {
+          loading: "Reordering lessons...",
+          success: (result) => {
+            if (result.status === "success")
+              return result.message || "Lessons reordered successfully.";
+            throw new Error(result.message || "Failed to reorder lessons.");
+          },
+          error: () => {
+            setItems(previousItems);
+            return "Failed to reorder lessons.";
+          },
+
+          // } else {
+          //   setItems(previousItems);
+          //   return result.message || "Failed to reorder lessons.";
+        });
+      }
+
+      return;
+    }
   }
 
   function toggleChapterOpen(chapterId: string) {
@@ -137,7 +327,10 @@ export function CourseStructure({ data }: iAppProps) {
     >
       <Card>
         <CardHeader className="flex flex-row items-center justify-between border-b border-border ">
-          <CardTitle className=" text-2xl font-semibold flex gap-2 ">Chapters <MoveRight className="size-6 mt-1"  /></CardTitle>
+          <CardTitle className=" text-2xl font-semibold flex gap-2 ">
+            Chapters <MoveRight className="size-6 mt-1" />
+          </CardTitle>
+          <NewChapterModal courseId={data.id} />
         </CardHeader>
         <CardContent>
           <SortableContext items={items} strategy={verticalListSortingStrategy}>
@@ -148,7 +341,10 @@ export function CourseStructure({ data }: iAppProps) {
                 data={{ type: "chapter" }}
               >
                 {(listeners) => (
-                  <Card className="w-full border border-border rounded-md mb-6" key={item.id}>
+                  <Card
+                    className="w-full border border-border rounded-md mb-6"
+                    key={item.id}
+                  >
                     <Collapsible
                       open={item.isOpen}
                       onOpenChange={() => toggleChapterOpen(item.id)}
@@ -221,7 +417,11 @@ export function CourseStructure({ data }: iAppProps) {
                                       </Link>
                                     </div>
 
-                                    <Button variant="outline" size="icon" className="cursor-pointer hover:opacity-100">
+                                    <Button
+                                      variant="outline"
+                                      size="icon"
+                                      className="cursor-pointer hover:opacity-100"
+                                    >
                                       <Trash2 className="size-4" />
                                     </Button>
                                   </div>
@@ -230,7 +430,10 @@ export function CourseStructure({ data }: iAppProps) {
                             ))}
                           </SortableContext>
                           <div className="p-2">
-                            <Button variant={"outline"} className="w-full cursor-pointer">
+                            <Button
+                              variant={"outline"}
+                              className="w-full cursor-pointer"
+                            >
                               Create New Lesson
                             </Button>
                           </div>

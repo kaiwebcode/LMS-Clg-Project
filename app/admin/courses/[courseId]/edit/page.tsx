@@ -9,7 +9,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EditCourseForm from "./_componennts/EditCourseForm";
 import { Loader2 } from "lucide-react";
-// import { CourseStructure } from "./_componennts/CourseStructure";
+import { CourseStructure } from "./_componennts/CourseStructure";
 
 type PageProps = {
   params: Promise<{
@@ -73,7 +73,7 @@ export default async function EditRoute({ params }: PageProps) {
               <Loader2 className="mx-auto mt-4 h-10 w-10 animate-spin text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              {/* <CourseStructure data={data} /> */}
+              <CourseStructure data={data} />
             </CardContent>
           </Card>
         </TabsContent>
