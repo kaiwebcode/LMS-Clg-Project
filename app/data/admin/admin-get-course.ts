@@ -1,48 +1,48 @@
 import { requireAdmin } from "./require-admin";
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
-import { Prisma } from "@prisma/client";
 
-export type AdminCourseSingularType =
-  Prisma.CourseGetPayload<{
-    select: {
-      id: true;
-      title: true;
-      description: true;
-      fileKey: true;
-      price: true;
-      duration: true;
-      level: true;
-      status: true;
-      slug: true;
-      smallDescription: true;
-      category: true;
-      chapter: {
-        select: {
-          id: true;
-          title: true;
-          position: true;
-          lessons: {
-            select: {
-              id: true;
-              title: true;
-              description: true;
-              thumbnailKey: true;
-              position: true;
-              videoKey: true;
-            };
-          };
-        };
-      };
-    };
-  }>;
+/* ================= TYPES ================= */
+
+export interface AdminLesson {
+  id: string;
+  title: string;
+  description: string | null;
+  thumbnailKey: string | null;
+  videoKey: string | null;
+  position: number;
+}
+
+export interface AdminChapter {
+  id: string;
+  title: string;
+  position: number;
+  lessons: AdminLesson[];
+}
+
+export interface AdminCourseSingularType {
+  id: string;
+  title: string;
+  description: string;
+  fileKey: string;
+  price: number;
+  duration: number;
+  level: string;
+  status: string;
+  slug: string;
+  smallDescription: string;
+  category: string;
+  chapter: AdminChapter[];
+}
+
+/* ================= FUNCTION ================= */
 
 export async function adminGetCourse(
   courseId: string,
 ): Promise<AdminCourseSingularType> {
   await requireAdmin();
 
-  if (!courseId) notFound(); // ⬅️ IMPORTANT (no return)
+  if (!courseId) notFound();
 
   const data = await prisma.course.findUnique({
     where: { id: courseId },
@@ -71,8 +71,8 @@ export async function adminGetCourse(
               title: true,
               description: true,
               thumbnailKey: true,
-              position: true,
               videoKey: true,
+              position: true,
             },
           },
         },
@@ -80,7 +80,7 @@ export async function adminGetCourse(
     },
   });
 
-  if (!data) notFound(); // ⬅️ IMPORTANT (no return)
+  if (!data) notFound();
 
   return data;
 }
