@@ -331,7 +331,7 @@ export default function EditCourseForm({ data }: iAppProps) {
             </>
           ) : (
             <>
-              Update  Course <PlusIcon className="ml-1" size={16} />
+              Update Course <PlusIcon className="ml-1" size={16} />
             </>
           )}
         </Button>

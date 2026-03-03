@@ -1,58 +1,13 @@
+
+
 import { requireAdmin } from "./require-admin";
 import { prisma } from "@/lib/db";
 import { notFound } from "next/navigation";
-import { Prisma } from "@prisma/client";
 
-/* =========================
-   ✅ CORRECT TYPE (FROM PRISMA)
-   ========================= */
-
-export type AdminCourseSingularType =
-  Prisma.CourseGetPayload<{
-    select: {
-      id: true;
-      title: true;
-      description: true;
-      fileKey: true;
-      price: true;
-      duration: true;
-      level: true;          // ✅ CourseLevel enum
-      status: true;         // ✅ CourseStatus enum
-      slug: true;
-      smallDescription: true;
-      category: true;
-      chapter: {
-        select: {
-          id: true;
-          title: true;
-          position: true;
-          lessons: {
-            select: {
-              id: true;
-              title: true;
-              description: true;
-              thumbnailKey: true;
-              videoKey: true;
-              position: true;
-            };
-          };
-        };
-      };
-    };
-  }>;
-
-/* =========================
-   FUNCTION
-   ========================= */
-
-export async function adminGetCourse(
-  courseId: string,
-): Promise<AdminCourseSingularType> {
+export async function adminGetCourse(courseId: string) {
   await requireAdmin();
 
-  if (!courseId) {
-    notFound(); // ⬅️ do NOT return
-  }
+  if (!courseId) return notFound();
 
   const data = await prisma.course.findUnique({
     where: { id: courseId },
@@ -69,20 +24,18 @@ export async function adminGetCourse(
       smallDescription: true,
       category: true,
       chapter: {
-        orderBy: { position: "asc" },
         select: {
           id: true,
           title: true,
           position: true,
           lessons: {
-            orderBy: { position: "asc" },
             select: {
               id: true,
               title: true,
               description: true,
               thumbnailKey: true,
-              videoKey: true,
               position: true,
+              videoKey: true,
             },
           },
         },
@@ -90,9 +43,11 @@ export async function adminGetCourse(
     },
   });
 
-  if (!data) {
-    notFound(); // ⬅️ do NOT return
-  }
+  if (!data) return notFound();
 
   return data;
 }
+
+export type AdminCourseSingularType = Awaited<
+  ReturnType<typeof adminGetCourse>
+>;
