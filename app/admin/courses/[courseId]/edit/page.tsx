@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import EditCourseForm from "./_componennts/EditCourseForm";
-import { Loader2 } from "lucide-react";
 import { CourseStructure } from "./_componennts/CourseStructure";
 
 type PageProps = {
@@ -67,10 +66,10 @@ export default async function EditRoute({ params }: PageProps) {
                 Here you can edit the course structure, such as adding sections,
                 lectures,
               </CardDescription>
-              <h1 className="text-2xl text-center mt-10">
+              {/* <h1 className="text-2xl text-center mt-10">
                 (A Some more changes, so it will take some time to implement...)
               </h1>
-              <Loader2 className="mx-auto mt-4 h-10 w-10 animate-spin text-muted-foreground" />
+              <Loader2 className="mx-auto mt-4 h-10 w-10 animate-spin text-muted-foreground" /> */}
             </CardHeader>
             <CardContent>
               <CourseStructure data={data} />
