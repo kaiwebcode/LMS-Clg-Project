@@ -57,7 +57,7 @@ export function DeleteChapter({
 
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogTrigger>
+      <AlertDialogTrigger asChild>
         <Button variant={"ghost"} size={"icon"} className="ml-auto">
           <Trash2 className="size-4" />
         </Button>

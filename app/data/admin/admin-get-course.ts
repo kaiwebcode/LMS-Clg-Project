@@ -2,12 +2,13 @@
 
 import { requireAdmin } from "./require-admin";
 import { prisma } from "@/lib/db";
+import { CourseLevel, CourseStatus } from "@prisma/client";
 import { notFound } from "next/navigation";
 
 export async function adminGetCourse(courseId: string) {
   await requireAdmin();
 
-  if (!courseId) return notFound();
+  if (!courseId) notFound();
 
   const data = await prisma.course.findUnique({
     where: { id: courseId },
@@ -32,10 +33,7 @@ export async function adminGetCourse(courseId: string) {
             select: {
               id: true,
               title: true,
-              description: true,
-              thumbnailKey: true,
               position: true,
-              videoKey: true,
             },
           },
         },
@@ -43,11 +41,32 @@ export async function adminGetCourse(courseId: string) {
     },
   });
 
-  if (!data) return notFound();
+  if (!data) notFound();
 
   return data;
 }
 
-export type AdminCourseSingularType = Awaited<
-  ReturnType<typeof adminGetCourse>
->;
+
+export type AdminCourseSingularType = {
+  id: string;
+  title: string;
+  description: string;
+  fileKey: string;
+  price: number;
+  duration: number;
+  level: CourseLevel;
+  status: CourseStatus;
+  slug: string;
+  smallDescription: string;
+  category: string;
+  chapter: {
+    id: string;
+    title: string;
+    position: number;
+    lessons: {
+      id: string;
+      title: string;
+      position: number;
+    }[];
+  }[];
+};
