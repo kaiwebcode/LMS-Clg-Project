@@ -53,9 +53,9 @@ export const auth = betterAuth({
 
         try {
           await transporter.sendMail({
-            from: `"Kaif Auth" <${env.GMAIL_USER}>`,
+            from: `"Alpha-Lms" <${env.GMAIL_USER}>`,
             to: email,
-            subject: "Kaif - Verify your email",
+            subject: "Alpha-Lms - Verify your email",
             html: `
               <div style="font-family: Arial, sans-serif">
                 <h2>Email Verification</h2>

@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && prisma generate",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint"
   },
@@ -46,6 +47,7 @@
     "better-auth": "^1.4.17",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.34.3",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.563.0",
     "next": "16.1.5",
