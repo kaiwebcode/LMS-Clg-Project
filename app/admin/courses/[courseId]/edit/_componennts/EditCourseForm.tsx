@@ -178,7 +178,7 @@ export default function EditCourseForm({ data }: iAppProps) {
             <FormItem className="w-full">
               <FormLabel>Thumbnail Image</FormLabel>
               <FormControl>
-                <Upload onChange={field.onChange} value={field.value} />
+                <Upload onChange={field.onChange} value={field.value} fileTypeAccepted="image" />
                 {/* <Input placeholder="Thumbnail Url" {...field} /> */}
               </FormControl>
               <FormMessage />
