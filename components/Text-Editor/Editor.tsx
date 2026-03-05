@@ -4,11 +4,28 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import { MenuBar } from "./MenuBar";
-import { ControllerRenderProps } from "react-hook-form";
-import { CourseSchemaInput } from "@/lib/zodSchema";
+
+/* ---------- TYPE ---------- */
+interface EditorField {
+  value?: string;
+  onChange: (value: string) => void;
+}
 
 interface EditorProps {
-  field: ControllerRenderProps<CourseSchemaInput, "description">;
+  field: EditorField;
+}
+
+/* ---------- SAFE PARSER ---------- */
+function parseEditorContent(value?: string) {
+  if (!value) {
+    return "<p>Put your Lesson Description Here...</p>";
+  }
+
+  try {
+    return JSON.parse(value);
+  } catch {
+    return `<p>${value}</p>`;
+  }
 }
 
 export default function Editor({ field }: EditorProps) {
@@ -29,9 +46,7 @@ export default function Editor({ field }: EditorProps) {
       },
     },
 
-    content: field.value
-      ? JSON.parse(field.value)
-      : "<p>Put your Course Description Here...</p>",
+    content: parseEditorContent(field.value),
 
     onUpdate: ({ editor }) => {
       field.onChange(JSON.stringify(editor.getJSON()));
