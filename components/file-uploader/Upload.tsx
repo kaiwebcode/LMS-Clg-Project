@@ -321,7 +321,7 @@ export default function Upload({
           },
     maxFiles: 1,
     multiple: false,
-    maxSize: 500 * 1024 * 1024, // 10MB
+    maxSize: fileTypeAccepted === 'image' ? 10 * 1024 * 1024 : 5000 * 1024 * 1024, // 10MB for images, 5GB for videos
     onDropRejected: rejectedFile,
     disabled: fileState.uploading || !!fileState.objectUrl,
   });
