@@ -1,12 +1,13 @@
 import { adminGetCourses } from "@/app/data/admin/admin-get-courses";
 import { buttonVariants } from "@/components/ui/button";
 import Link from "next/link";
-import AdminCourseCard from "./_components/AdminCourseCard";
+import AdminCourseCard, {
+  AdminCourseCardSkeleton,
+} from "./_components/AdminCourseCard";
 import { EmptyState } from "@/components/general/EmptyState";
+import { Suspense } from "react";
 
-export default async function AdminCoursesPage() {
-  const data = await adminGetCourses();
-
+export default function AdminCoursesPage() {
   return (
     <>
       <div className="flex justify-between items-center">
@@ -23,8 +24,24 @@ export default async function AdminCoursesPage() {
         </span>
         <h1 className="text-xl text-center mt-20">Here, you will see all of the courses. </h1>
       </div> */}
+      <Suspense fallback={<AdminCourseCardSkeletonLayout />}>
+        <RenderCourses />
+      </Suspense>
+    </>
+  );
+}
+
+async function RenderCourses() {
+  const data = await adminGetCourses();
+
+  return (
+    <>
       {data.length === 0 ? (
-        <EmptyState title="No Courses Found" description="Looks like there are no courses available." buttonText="Create Course" />
+        <EmptyState
+          title="No Courses Found"
+          description="Looks like there are no courses available."
+          buttonText="Create Course"
+        />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-6">
           {data.map((course) => {
@@ -33,5 +50,15 @@ export default async function AdminCoursesPage() {
         </div>
       )}
     </>
+  );
+}
+
+function AdminCourseCardSkeletonLayout() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-6">
+      {Array.from({ length: 4 }).map((_, index) => (
+        <AdminCourseCardSkeleton key={index} />
+      ))}
+    </div>
   );
 }

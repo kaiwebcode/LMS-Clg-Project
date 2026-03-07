@@ -45,10 +45,13 @@ import { tryCatch } from "@/hooks/try-catch";
 import { createCourse } from "./action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { useConfetti } from "@/hooks/use-confetti";
+import { tr } from "zod/v4/locales";
 
 export default function CourseCreatePage() {
   const [isPending, setTransition] = useTransition();
   const router = useRouter();
+  const { triggerConfetti } = useConfetti();
 
   // define your form
   const form = useForm<CourseSchemaInput>({
@@ -87,6 +90,7 @@ export default function CourseCreatePage() {
 
       if (result.status === "success") {
         toast.success("Course created successfully!");
+        triggerConfetti();
         form.reset();
         router.push("/admin/courses");
       } else {
