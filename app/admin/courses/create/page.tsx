@@ -46,7 +46,6 @@ import { createCourse } from "./action";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { useConfetti } from "@/hooks/use-confetti";
-import { tr } from "zod/v4/locales";
 
 export default function CourseCreatePage() {
   const [isPending, setTransition] = useTransition();
