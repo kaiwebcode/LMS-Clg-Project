@@ -1,7 +1,6 @@
 import { getIndividualCourse } from "@/app/data/courses/get-course";
 import RenderDescription from "@/components/Text-Editor/RenderDescription";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Collapsible,
@@ -9,7 +8,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Separator } from "@/components/ui/separator";
-import { useConstructUrl } from "@/hooks/use-construct-url";
+// import { useConstructUrl } from "@/hooks/use-construct-url";
 import {
   IconBook,
   IconCategory,
@@ -20,12 +19,19 @@ import {
 } from "@tabler/icons-react";
 import { CheckIcon } from "lucide-react";
 import Image from "next/image";
+import { checkIfCourseBrought } from "@/app/data/user/user-is-enrollment";
+import Link from "next/link";
+import EnrollmentButton from "./_components/EnrollmentButton";
+import { buttonVariants } from "@/components/ui/button";
+// import EnrollmentButton from "./_components/";
 
 type Params = Promise<{ slug: string }>;
 
 export default async function SlugPage({ params }: { params: Params }) {
   const course = await getIndividualCourse((await params).slug);
-  const thumbnailUrl = useConstructUrl(course.fileKey);
+  const isEnrolled = await checkIfCourseBrought(course.id);
+  // const thumbnailUrl = useConstructUrl(course.fileKey);
+  const thumbnailUrl = `https://${process.env.NEXT_PUBLIC_S3_BUCKET_NAME_IMAGES}.t3.storage.dev/${course.fileKey}`;
 
   return (
     <div className="max-w-7xl mx-auto px-4 lg:px-6 py-8 grid grid-cols-1 lg:grid-cols-3 gap-10">
@@ -321,9 +327,17 @@ export default async function SlugPage({ params }: { params: Params }) {
               </ul>
             </div>
 
-            <Button className="w-full" size="lg">
-              Enroll Now!
-            </Button>
+            {isEnrolled ? (
+              <Link
+                className={buttonVariants({ className: "w-full" })}
+                href="/dashboard"
+              >
+                Watch Now
+              </Link>
+            ) : (
+              <EnrollmentButton courseId={course.id} />
+            )}
+
             <p className=" text-center text-xs text-muted-foreground">
               30-day money back guarantee
             </p>

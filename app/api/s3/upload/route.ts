@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { S3 } from "@/lib/S3Client";
 // import aj from "@/lib/arcjet";
-// import { detectBot, fixedWindow } from "@arcjet/next";
+// import { fixedWindow } from "@arcjet/next";
 // import { requireAdmin } from "@/app/data/admin/require-admin";
 
 export const fileUploadSchema = z.object({
@@ -21,12 +21,6 @@ export const fileUploadSchema = z.object({
 });
 
 // const arcjet = aj
-//   .withRule(
-//     detectBot({
-//       mode: "LIVE",
-//       allow: [],
-//     }),
-//   )
 //   .withRule(
 //     fixedWindow({
 //       mode: "LIVE",
