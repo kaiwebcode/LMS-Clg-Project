@@ -3,25 +3,18 @@
 import { requireAdmin } from "@/app/data/admin/require-admin";
 import aj from "@/lib/arcjet";
 import { prisma } from "@/lib/db";
+import { stripe } from "@/lib/stripe";
 import { ApiResponse } from "@/lib/types";
 import { courseSchema, CourseSchemaType } from "@/lib/zodSchema";
-import { detectBot, fixedWindow, request } from "@arcjet/next";
+import { fixedWindow, request } from "@arcjet/next";
 
-
-const arcjet = aj
-  .withRule(
-    detectBot({
-      mode: "LIVE",
-      allow: [],
-    }),
-  )
-  .withRule(
-    fixedWindow({
-      mode: "LIVE",
-      window: "1m",
-      max: 5,
-    }),
-  );
+const arcjet = aj.withRule(
+  fixedWindow({
+    mode: "LIVE",
+    window: "1m",
+    max: 5,
+  }),
+);
 
 export async function createCourse(
   data: CourseSchemaType,
@@ -62,6 +55,15 @@ export async function createCourse(
       };
     }
 
+    const stripeProduct = await stripe.products.create({
+      name: validationData.data.title,
+      description: validationData.data.smallDescription,
+      default_price_data: {
+        currency: "usd",
+        unit_amount: validationData.data.price * 100, // Stripe expects price in cents
+      },
+    });
+
     const courseData = validationData.data;
 
     // Create the course in the database
@@ -69,6 +71,7 @@ export async function createCourse(
       data: {
         ...courseData,
         userId: session?.user.id as string,
+        stripePriceId: stripeProduct.default_price as string,
       },
     });
 
