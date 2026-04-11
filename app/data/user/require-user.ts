@@ -1,8 +1,11 @@
+import "server-only";
+
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { cache } from "react";
 
-export async function requireUser() {
+export const requireUser = cache(async () => {
   // Implement your logic to check if the user is authenticated
   const session = await auth.api.getSession({
     // Include the session cookie in the request
@@ -14,4 +17,4 @@ export async function requireUser() {
   }
 
   return session.user;
-}
+});
