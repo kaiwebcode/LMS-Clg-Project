@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     const customerId = session.customer as string;
 
     if (!courseId) {
-      throw new Error("Webhook Error: Missing courseId in metadata");
+      throw new Error("Webhook Error: Missing courseId");
     }
 
     const user = await prisma.user.findUnique({
@@ -56,8 +56,6 @@ export async function POST(req: Request) {
       },
     });
   }
-
-  
 
   return new Response(null, { status: 200 });
 }

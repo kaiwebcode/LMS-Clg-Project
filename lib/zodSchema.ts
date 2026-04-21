@@ -32,8 +32,8 @@ export const courseSchema = z.object({
     .max(100, { message: "Title must be at most 100 characters long" }),
   description: z
     .string()
-    .min(3, { message: "Description must be at least 3 characters long" })
-    .max(1000, { message: "Description must be at most 1000 characters long" }),
+    .min(10, { message: "Description must be at least 10 characters long" })
+    .max(4000, { message: "Description must be at most 4000 characters long" }),
   fileKey: z.string().min(1, { message: "File is required" }),
   price: z.coerce
     .number()
@@ -52,9 +52,9 @@ export const courseSchema = z.object({
   }),
   smallDescription: z
     .string()
-    .min(3, { message: "Small description must be at least 3 characters long" })
-    .max(255, {
-      message: "Small description must be at most 255 characters long",
+    .min(10, { message: "Small description must be at least 10 characters long" })
+    .max(1000, {
+      message: "Small description must be at most 1000 characters long",
     }),
 
   slug: z
@@ -75,7 +75,7 @@ export const lessonSchema = z.object({
   name: z.string().min(3, { message: "Lesson name must be at least 3 characters long" }),
   courseId: z.string().uuid({ message: "Invalid course ID" }),
   chapterId: z.string().uuid({ message: "Invalid chapter ID" }),
-  description: z.string().min(3, { message: "Description must be at least 3 characters long" }).max(1000, { message: "Description must be at most 1000 characters long" }).optional(),
+  description: z.string().min(10, { message: "Description must be at least 10 characters long" }).max(3000, { message: "Description must be at most 3000 characters long" }).optional(),
   thumbnailKey: z.string().optional(),
   videoKey: z.string().optional(),
 

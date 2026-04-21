@@ -10,7 +10,7 @@ import { Loader2 } from "lucide-react";
 export default function EnrollmentButton({ courseId }: { courseId: string }) {
   const [pending, startTransition] = useTransition();
 
-  const onSubmit = () => {
+  function onSubmit() {
     // At runtime, data is already validated & coerced by Zod
     // const validatedData = courseSchema.parse(data);
 
@@ -20,7 +20,7 @@ export default function EnrollmentButton({ courseId }: { courseId: string }) {
       const { data: result, error } = await tryCatch(EnrollInCourse(courseId));
 
       if (error) {
-        toast.error(" An error occurred while enrolling in the course.");
+        toast.error("Something went wrong.");
         console.error(" Something went wrong: ", error);
         return;
       }
@@ -29,7 +29,7 @@ export default function EnrollmentButton({ courseId }: { courseId: string }) {
         toast.success(result.message);
       } else {
         toast.error(
-          result.message || " An error occurred while enrolling in the course.",
+          result.message || "Something went wrong. Please try again later."
         );
       }
     });
