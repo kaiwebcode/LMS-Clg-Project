@@ -48,6 +48,7 @@ export async function EnrollInCourse(
         title: true,
         price: true,
         slug: true,
+        fileKey: true,
       },
     });
 
@@ -138,16 +139,27 @@ export async function EnrollInCourse(
 
       const checkoutSession = await stripe.checkout.sessions.create({
         customer: stripeCustomerId,
+        payment_method_types: ["card"],
+        mode: "payment",
 
         line_items: [
           {
-            price: "price_1TJYumIToPHC0sOS9lPeVITo",
+            price_data: {
+              currency: "inr",
+              unit_amount: course.price * 100,
+              product_data: {
+                name: course.title,
+                description: `Enroll in ${course.title}`,
+                images: [],
+              },
+            },
             quantity: 1,
           },
         ],
-        mode: "payment",
+
         success_url: `${env.BETTER_AUTH_URL}/payment/success`,
-        cancel_url: `${env.BETTER_AUTH_URL}/courses/cancel`,
+        cancel_url: `${env.BETTER_AUTH_URL}/payment/cancel`,
+
         metadata: {
           userId: user.id,
           courseId: course.id,

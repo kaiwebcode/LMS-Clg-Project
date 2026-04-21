@@ -12,7 +12,7 @@ import {
 } from "./RenderState";
 import { toast } from "sonner";
 import { v4 as uuidv4 } from "uuid";
-import { useConstructUrl } from "@/hooks/use-construct-url";
+import { constructUrl } from "@/hooks/use-construct-url";
 
 interface UploaderState {
   id: string | null;
@@ -37,7 +37,7 @@ export default function Upload({
   onChange,
   fileTypeAccepted,
 }: iAppProps) {
-  const fileUrl = useConstructUrl(value ?? "");
+  const fileUrl = constructUrl(value ?? "");
 
   const [fileState, setFileState] = useState<UploaderState>({
     error: false,
@@ -321,7 +321,8 @@ export default function Upload({
           },
     maxFiles: 1,
     multiple: false,
-    maxSize: fileTypeAccepted === 'image' ? 10 * 1024 * 1024 : 5000 * 1024 * 1024, // 10MB for images, 5GB for videos
+    maxSize:
+      fileTypeAccepted === "image" ? 10 * 1024 * 1024 : 5000 * 1024 * 1024, // 10MB for images, 5GB for videos
     onDropRejected: rejectedFile,
     disabled: fileState.uploading || !!fileState.objectUrl,
   });
