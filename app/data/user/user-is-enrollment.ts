@@ -12,7 +12,7 @@ export async function checkIfCourseBrought( courseId: string ): Promise<boolean>
 
     if(!session?.user) return false;
 
-    const enrollment = await prisma.enrollment.findUnique({
+    const enrollment = await prisma.enrollment.findUnique({ 
     
         where: {
             userId_courseId: {

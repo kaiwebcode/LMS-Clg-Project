@@ -13,9 +13,9 @@ export async function adminGetDashboardStats() {
       // Fetch customer count
       prisma.user.count({
         where: {
-          enrollments: {
+          enrollment: {
             some: {
-            //   status: "Active",
+              status: "Active",
             },
           },
         },
@@ -26,11 +26,10 @@ export async function adminGetDashboardStats() {
       prisma.lesson.count(),
     ]);
 
-    return {
-        totalUsers,
-        totalCustomers,
-        totalCourses,
-        totalLessons, 
-    }
-
+  return {
+    totalUsers,
+    totalCustomers,
+    totalCourses,
+    totalLessons,
+  };
 }
