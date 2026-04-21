@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { useTransition } from "react";
 import { EnrollInCourse } from "../actions";
-import { tryCatch } from "@/hooks/try-catch";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
@@ -11,29 +10,39 @@ export default function EnrollmentButton({ courseId }: { courseId: string }) {
   const [pending, startTransition] = useTransition();
 
   function onSubmit() {
-    // At runtime, data is already validated & coerced by Zod
-    // const validatedData = courseSchema.parse(data);
-
-    // console.log("Validated data:", validatedData);
-
     startTransition(async () => {
-      const { data: result, error } = await tryCatch(EnrollInCourse(courseId));
+      try {
+        const result = await EnrollInCourse(courseId);
 
-      if (error) {
+        console.log("Enrollment Result:", result);
+
+        // 👉 If server returns something (like already enrolled)
+        if (result?.status === "success") {
+          toast.success(result.message);
+        } else if (result?.status === "error") {
+          toast.error(
+            result.message || "Something went wrong. Please try again later.",
+          );
+        }
+
+        // 👉 If redirect happens, code below WON'T run (and that's correct)
+      } catch (error: unknown) {
+        // ✅ Ignore Next.js redirect error
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "digest" in error &&
+          typeof (error as { digest?: string }).digest === "string" &&
+          (error as { digest?: string }).digest?.includes("NEXT_REDIRECT")
+        ) {
+          return;
+        }
+
+        console.error("Real Error:", error);
         toast.error("Something went wrong.");
-        console.error(" Something went wrong: ", error);
-        return;
-      }
-
-      if (result.status === "success") {
-        toast.success(result.message);
-      } else {
-        toast.error(
-          result.message || "Something went wrong. Please try again later."
-        );
       }
     });
-  };
+  }
 
   return (
     <Button

@@ -100,7 +100,7 @@ export function UserDropdown({ email, name, image }: UserDropdownProps) {
           </DropdownMenuItem>
 
           <DropdownMenuItem asChild>
-            <Link href="/admin">
+            <Link href="/dashboard">
               <IoAnalytics /> Dashboard
             </Link>
           </DropdownMenuItem>

@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { useConstructUrl } from "@/hooks/use-construct-url";
+import { constructUrl } from "@/hooks/use-construct-url";
 import { useCourseProgress } from "@/hooks/use-course-progress";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,7 +15,7 @@ interface iAppProps {
 }
 
 export function CourseProgressCard({ data }: iAppProps) {
-  const thumbnailUrl = useConstructUrl(data.Course.fileKey);
+  const thumbnailUrl = constructUrl(data.Course.fileKey);
 
   // ✅ NO TYPE ERROR HERE
   const { totalLessons, completedLessons, progressPercentage } =

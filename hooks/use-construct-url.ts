@@ -1,6 +1,6 @@
 import { env } from "@/lib/env";
 
-export function useConstructUrl(Key: string | null ): string {
+export function constructUrl(Key: string | null ): string {
 //   const bucketUrl = process.env.NEXT_PUBLIC_S3_BUCKET_URL;
 
   if (!Key) return "";

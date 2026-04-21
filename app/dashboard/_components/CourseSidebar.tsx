@@ -26,8 +26,8 @@ export default function CourseSidebar({ course }: iAppProps) {
     useCourseProgress({ courseData: course });
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="pb-4 pr-4 border-b border-border">
+    <div className="flex flex-col h-full w-full">
+      <div className="py-4 border-b border-border px-4 lg:pr-3  ">
         <div className="flex items-center gap-3 mb-2">
           <div className="size-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
             <PlayCircle className="size-5 text-primary" />
@@ -58,7 +58,7 @@ export default function CourseSidebar({ course }: iAppProps) {
         </div>
       </div>
 
-      <div className="py-4 pr-4 space-y-3">
+      <div className="py-4 space-y-3 px-3 lg:pr-3 ">
         {course.chapter.map((chapter, index) => (
           <Collapsible key={chapter.id} defaultOpen={index === 0}>
             <CollapsibleTrigger asChild>
