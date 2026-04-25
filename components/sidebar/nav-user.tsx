@@ -116,18 +116,18 @@ export function NavUser() {
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild className="cursor-pointer">
                 <Link href="/">
                   <FaHome />
                   Home
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild className="cursor-pointer">
                 <Link href="/admin">
                   <IconCreditCard /> Dashboard
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem asChild>
+              <DropdownMenuItem asChild className="cursor-pointer">
                 <Link href="/admin/courses">
                   <Tv2 /> Courses
                 </Link>
@@ -136,7 +136,7 @@ export function NavUser() {
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem onClick={signout}>
+            <DropdownMenuItem onClick={signout} className="cursor-pointer">
               <IconLogout /> Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
