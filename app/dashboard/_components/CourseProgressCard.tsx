@@ -39,7 +39,7 @@ export function CourseProgressCard({ data }: iAppProps) {
 
       <CardContent className="p-4">
         <Link
-          className="font-medium text-lg line-clamp-2 hover:underline group-hover:text-primary transition-colors"
+          className="font-bold text-xl line-clamp-2 hover:underline group-hover:text-primary transition-colors"
           href={`/dashboard/${data.Course.slug}`}
         >
           {data.Course.title}

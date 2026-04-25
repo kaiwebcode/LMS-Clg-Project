@@ -16,12 +16,12 @@ export default async function CourseLayout({ params, children }: iAppProps) {
     <div className="flex flex-col lg:flex-row h-screen">
       
       {/* 📱 MOBILE: CONTENT FIRST (VIDEO) */}
-      <div className="block lg:hidden w-full h-full overflow-y-auto mt-10">
+      <div className="block lg:hidden w-full h-full overflow-y-auto ">
         {children}  
       </div>
 
       {/* SIDEBAR */}
-      <div className="w-full lg:w-100 border-t lg:border-t-0 lg:border-r border-border overflow-y-auto ">
+      <div className="w-full lg:w-100 border-t lg:border-t-0 lg:border-r border-border overflow-y-auto auto-scrollbar">
         <CourseSidebar course={course.course} />
       </div>
 

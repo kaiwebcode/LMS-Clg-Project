@@ -64,7 +64,7 @@ export function UserDropdown({ email, name, image }: UserDropdownProps) {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
+      <DropdownMenuTrigger asChild className="cursor-pointer">
         <Button variant="ghost" size="icon" className="rounded-full px-8 py-4">
           <Avatar>
             <AvatarImage src={image || avatarUrl} alt={name} />
@@ -87,19 +87,19 @@ export function UserDropdown({ email, name, image }: UserDropdownProps) {
         <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild className="cursor-pointer">
             <Link href="/">
               <FaHome /> Home
             </Link>
           </DropdownMenuItem>
 
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild className="cursor-pointer">
             <Link href="/courses">
               <GiBookCover /> Courses
             </Link>
           </DropdownMenuItem>
 
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild className="cursor-pointer">
             <Link href="/dashboard">
               <IoAnalytics /> Dashboard
             </Link>
@@ -108,7 +108,7 @@ export function UserDropdown({ email, name, image }: UserDropdownProps) {
 
         <DropdownMenuSeparator />
 
-        <DropdownMenuItem onClick={signOut}>
+        <DropdownMenuItem onClick={signOut} className="cursor-pointer">
           <LogOutIcon /> Logout
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -1,61 +1,49 @@
 "use client";
 
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { Hero } from "./_components/Hero";
+import { About } from "./_components/About";
+import { Reviews } from "./_components/Reviews";
 
-import { Badge } from "@/components/ui/badge";
-import { buttonVariants } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+// interface Feature {
+//   title: string;
+//   description: string;
+//   icon: ReactNode;
+// }
 
-import { GiBookCover } from "react-icons/gi";
-import { IoGameController } from "react-icons/io5";
-import { SiSimpleanalytics } from "react-icons/si";
-import { BsFillPeopleFill } from "react-icons/bs";
-
-interface Feature {
-  title: string;
-  description: string;
-  icon: ReactNode;
-}
-
-const features: Feature[] = [
-  {
-    title: "Comprehensive Courses",
-    description:
-      "Expert-crafted courses designed to help you master real-world skills.",
-    icon: <GiBookCover />,
-  },
-  {
-    title: "Interactive Learning",
-    description: "Engage with quizzes, challenges, and hands-on assignments.",
-    icon: <IoGameController />,
-  },
-  {
-    title: "Progress Tracking",
-    description:
-      "Visual dashboards and analytics to track your learning journey.",
-    icon: <SiSimpleanalytics />,
-  },
-  {
-    title: "Community Support",
-    description:
-      "Learn together with instructors and peers in an active community.",
-    icon: <BsFillPeopleFill />,
-  },
-];
+// const features: Feature[] = [
+//   {
+//     title: "Comprehensive Courses",
+//     description:
+//       "Expert-crafted courses designed to help you master real-world skills.",
+//     icon: <GiBookCover />,
+//   },
+//   {
+//     title: "Interactive Learning",
+//     description: "Engage with quizzes, challenges, and hands-on assignments.",
+//     icon: <IoGameController />,
+//   },
+//   {
+//     title: "Progress Tracking",
+//     description:
+//       "Visual dashboards and analytics to track your learning journey.",
+//     icon: <SiSimpleanalytics />,
+//   },
+//   {
+//     title: "Community Support",
+//     description:
+//       "Learn together with instructors and peers in an active community.",
+//     icon: <BsFillPeopleFill />,
+//   },
+// ];
 
 export default function Home() {
   return (
-    <main className="relative overflow-hidden">
+   <div className="relative bg-accent-primary/5 overflow-hidden">
       {/* 🔮 Background Glow */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute left-1/2 top-[-10%] h-100 w-100 -translate-x-1/2 rounded-full bg-primary/20 blur-[120px]" />
-        <div className="absolute right-0 bottom-0 h-75 w-75 rounded-full bg-purple-500/20 blur-[120px]" />
-      </div>
+  
 
       {/* 🚀 HERO SECTION */}
-      <section className="container py-28 text-center space-y-8">
+      {/* <section className="container py-28 text-center space-y-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -104,11 +92,11 @@ export default function Home() {
             Get Started
           </Link>
         </motion.div>
-      </section>
+      </section> */}
 
       {/* 🌟 FEATURES SECTION */}
       {/* 🌟 FEATURES SECTION */}
-      <section className="container py-24">
+      {/* <section className="container py-24">
         <motion.div
           initial="hidden"
           whileInView="visible"
@@ -128,7 +116,7 @@ export default function Home() {
               <div className="relative group h-full rounded-2xl p-px bg-linear-to-br from-primary/40 via-purple-500/30 to-transparent hover:from-primary hover:via-purple-500">
                 <Card className="relative h-full rounded-2xl bg-background/70 backdrop-blur-xl border border-white/10 overflow-hidden transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-2xl">
                   {/* ICON */}
-                  <CardHeader className="pb-2">
+      {/* <CardHeader className="pb-2">
                     <motion.div
                       whileHover={{ y: -6 }}
                       transition={{ type: "spring", stiffness: 300 }}
@@ -142,20 +130,24 @@ export default function Home() {
                   </CardHeader>
 
                   {/* CONTENT */}
-                  <CardContent>
+      {/* <CardContent>
                     <p className="text-sm leading-relaxed text-muted-foreground">
                       {feature.description}
                     </p>
-                  </CardContent>
+                  </CardContent> */}
 
-                  {/* HOVER GLOW */}
-                  <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-linear-to-br from-primary/15 via-transparent to-purple-500/20" />
+      {/* HOVER GLOW */}
+      {/* <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-500 bg-linear-to-br from-primary/15 via-transparent to-purple-500/20" />
                 </Card>
               </div>
             </motion.div>
           ))}
         </motion.div>
-      </section>
-    </main>
+      </section> */}
+
+      <Hero />
+      <About />
+      <Reviews />
+    </div>
   );
 }

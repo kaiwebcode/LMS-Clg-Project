@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu } from "lucide-react";
+import { GraduationCap, Menu } from "lucide-react";
 import { ModeToggle } from "@/components/ModeToggle";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
@@ -26,11 +26,14 @@ export function Navbar() {
   const { data, isPending } = authClient.useSession();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/70 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
         {/* LOGO */}
-        <Link href="/" className="text-2xl font-bold">
+        <Link href="/" className="text-2xl font-bold flex items-center gap-1">
           {/* <Image src={logoImg} alt="Kai-LMS" width={100} height={40} /> */}
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-hero shadow-card">
+            <GraduationCap className="h-8 w-8 text-primary" />
+          </div>
           Alpha-Lms
         </Link>
 
