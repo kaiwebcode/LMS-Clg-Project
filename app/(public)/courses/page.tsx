@@ -3,26 +3,28 @@ import PublicCourseCard, {
   PublicCourseCardSkeleton,
 } from "../_components/PublicCourseCard";
 import { Suspense } from "react";
+import { HeroSection } from "../_components/HeroSection";
+
 
 export default function CoursesPage() {
   return (
-    <div className="mt-6">
-      <div className="flex flex-col space-y-2 mb-6">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tighter">
-          Explore Courses
-        </h1>
-        <p className="text-muted-foreground max-w-2xl">
-          Discover our wide range of courses designed to help you learn new
-          skills and advance your career. Whether you&apos;re interested in
-          technology, business, or creative arts, we have something for
-          everyone. Browse through our course catalog and find the perfect
-          course to start your learning journey today!
-        </p>
-      </div>
+    <div className="my-10 px-4 lg:px-8 space-y-10">
 
-      <Suspense fallback={<LoadingSkeletonLayout />}>
-        <RenderCourses />
-      </Suspense>
+      {/* 🔥 HERO (Client Component) */}
+      <HeroSection />
+
+      {/* 🔥 COURSES SECTION */}
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-4xl font-semibold">
+            All Courses
+          </h2>
+        </div>
+
+        <Suspense fallback={<LoadingSkeletonLayout />}>
+          <RenderCourses />
+        </Suspense>
+      </div>
     </div>
   );
 }
@@ -31,9 +33,14 @@ async function RenderCourses() {
   const courses = await getAllCourses();
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {courses.map((course) => (
-        <PublicCourseCard key={course.id} data={course} />
+        <div
+          key={course.id}
+          className="group transition-all duration-300 hover:-translate-y-1"
+        >
+          <PublicCourseCard data={course} />
+        </div>
       ))}
     </div>
   );
@@ -41,8 +48,8 @@ async function RenderCourses() {
 
 function LoadingSkeletonLayout() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {Array.from({ length: 3 }).map((_, index) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {Array.from({ length: 6 }).map((_, index) => (
         <PublicCourseCardSkeleton key={index} />
       ))}
     </div>

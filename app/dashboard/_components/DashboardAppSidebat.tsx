@@ -24,6 +24,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { IoAnalytics } from "react-icons/io5";
+import { BookAIcon } from "lucide-react";
 
 const data = {
   navMain: [
@@ -31,6 +32,11 @@ const data = {
       title: "Dashboard",
       url: "/dashboard",
       icon: IconDashboard,
+    },
+    {
+      title: "Courses",
+      url: "/dashboard/courses",
+      icon: BookAIcon,
     },
   ],
   navClouds: [

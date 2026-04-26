@@ -93,7 +93,7 @@ export default function LoginForm() {
         <Button
           onClick={signInWithGithub}
           disabled={githubPending}
-          className="w-full"
+          className="w-full cursor-pointer"
           variant="outline"
         >
           {githubPending ? (
@@ -112,7 +112,7 @@ export default function LoginForm() {
         <Button
           onClick={signInWithGoogle}
           disabled={googlePending}
-          className="w-full"
+          className="w-full cursor-pointer"
           variant="outline"
         >
           {googlePending ? (
@@ -150,7 +150,7 @@ export default function LoginForm() {
 
             <Button
               disabled={!agreed || emailPending}
-              className="w-full"
+              className="w-full cursor-pointer"
               onClick={signInWithEmail}
             >
               {emailPending ? (
