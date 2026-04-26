@@ -7,7 +7,6 @@ import {
   IconDashboard,
   IconFileAi,
   IconFileDescription,
-  IconFolder,
   IconHelp,
   IconListDetails,
   IconSearch,
@@ -44,13 +43,8 @@ const data = {
     },
     {
       title: "Analytics",
-      url: "#",
+      url: "/admin/analytics",
       icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
     },
     {
       title: "Team",
@@ -138,7 +132,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <a href="#">
                 <IoAnalytics className="size-5!" />
                 <span className="text-base font-semibold">
-                  Alpha Elearning..
+                  Admin Dashboard..
                 </span>
               </a>
             </SidebarMenuButton>

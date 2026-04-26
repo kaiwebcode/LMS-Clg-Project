@@ -57,7 +57,7 @@ export default function VerifyRequestClient() {
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-5">
         <div className="flex flex-col items-center space-y-3">
           <InputOTP
             value={otp}
@@ -85,16 +85,16 @@ export default function VerifyRequestClient() {
         <Button
           onClick={verifyOtp}
           disabled={emailPending || !isOtpCompleted}
-          className="w-full"
+          className="w-full cursor-pointer"
         >
           {emailPending ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className=" h-4 w-4 animate-spin" />
               Verifying...
             </>
           ) : (
             <>
-              <Verified className="mr-2 h-4 w-4" />
+              <Verified className=" h-4 w-4" />
               Verify Account
             </>
           )}

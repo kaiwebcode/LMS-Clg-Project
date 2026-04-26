@@ -61,7 +61,7 @@ export function About() {
 
           <h2 className="mt-4 text-3xl sm:text-4xl font-bold leading-tight">
             Everything you need to{" "}
-            <span className="bg-gradient-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-primary via-purple-500 to-blue-500 bg-clip-text text-transparent">
               learn, teach & grow
             </span>
           </h2>
@@ -77,13 +77,13 @@ export function About() {
           {features.map((f) => (
             <div
               key={f.title}
-              className="group relative rounded-2xl p-[1px] bg-gradient-to-br from-primary/40 via-purple-500/30 to-transparent hover:from-primary hover:via-purple-500 transition-all duration-500"
+              className="group relative rounded-2xl p-px bg-linear-to-br from-primary/40 via-purple-500/30 to-transparent hover:from-primary hover:via-purple-500 transition-all duration-500"
             >
               {/* CARD */}
               <div className="relative h-full rounded-2xl bg-background/70 backdrop-blur-xl border border-white/10 p-6 transition-all duration-500 group-hover:-translate-y-3 group-hover:shadow-[0_20px_50px_rgba(0,0,0,0.25)]">
                 
                 {/* ICON */}
-                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-purple-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
+                <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-linear-to-br from-primary to-purple-500 text-white shadow-lg transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3">
                   <f.icon className="h-6 w-6" />
                 </div>
 
@@ -98,7 +98,7 @@ export function About() {
                 </p>
 
                 {/* ✨ HOVER GLOW */}
-                <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 bg-gradient-to-br from-primary/10 via-transparent to-purple-500/20" />
+                <div className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition duration-500 bg-linear-to-br from-primary/10 via-transparent to-purple-500/20" />
               </div>
             </div>
           ))}

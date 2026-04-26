@@ -1,47 +1,36 @@
 import { EmptyState } from "@/components/general/EmptyState";
-import { getAllCourses } from "../data/courses/get-all-courses";
 import { getEnrolledCourses } from "../data/user/get-enrolled-courses";
-import PublicCourseCard from "../(public)/_components/PublicCourseCard";
 import { CourseProgressCard } from "./_components/CourseProgressCard";
+import { requireUser } from "../data/user/require-user";
 
 export default async function DashboardPage() {
-  const [allCourses, enrolledCourses] = await Promise.all([
-    getAllCourses(),
-    getEnrolledCourses(),
-  ]);
+  const [enrolledCourses] = await Promise.all([getEnrolledCourses()]);
 
-  const availableCourses = allCourses.filter(
-    (course) =>
-      !enrolledCourses.some(
-        ({ Course: enrolled }) => enrolled.id === course.id,
-      ),
-  );
+  const user = await requireUser();
 
   return (
-    <div className="space-y-12">
-      {/* 🔥 HEADER */}
+    <div className="space-y-8">
+      {/* HEADER */}
       <div className="space-y-2">
         <h1 className="text-4xl font-bold tracking-tight lg:ml-4">
-          Welcome back 👋
+          Welcome back{" "}
+          <span className="capitalize text-primary ">
+            {user?.name.split(" ")[0]}
+          </span>
         </h1>
         <p className="text-muted-foreground lg:ml-4">
           Track your progress and continue learning
         </p>
-      <div className="border-b border-border mt-6" />
+        <div className="border-b border-border mt-3" />
       </div>
-
 
       {/* ================= ENROLLED ================= */}
       <section className="space-y-4 lg:ml-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-3xl font-semibold">
-              Your Courses
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              {enrolledCourses.length} enrolled courses
-            </p>
-          </div>
+        <div className="flex gap-1 items-center justify-between">
+          <h2 className="text-4xl font-semibold">Your Courses:-</h2>
+          <p className="text-md text-muted-foreground lg:mr-4">
+            {enrolledCourses.length} enrolled courses
+          </p>
         </div>
 
         {enrolledCourses.length === 0 ? (
@@ -55,35 +44,6 @@ export default async function DashboardPage() {
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {enrolledCourses.map((course) => (
               <CourseProgressCard key={course.Course.id} data={course} />
-            ))}
-          </div>
-        )}
-      </section>
-
-          <div className="border-b border-border " />
-
-      {/* ================= AVAILABLE ================= */}
-      <section className="space-y-4 lg:ml-4">
-        <div>
-          <h2 className="text-3xl font-semibold">
-            Explore Courses
-          </h2>
-          <p className="text-sm text-muted-foreground">
-            {availableCourses.length} available courses
-          </p>
-        </div>
-
-        {availableCourses.length === 0 ? (
-          <EmptyState
-            title="No Available Courses"
-            description="New courses will be added soon"
-            buttonText="Refresh"
-            href="/courses"
-          />
-        ) : (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {availableCourses.map((course) => (
-              <PublicCourseCard key={course.id} data={course} />
             ))}
           </div>
         )}
