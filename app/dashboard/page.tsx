@@ -15,7 +15,7 @@ export default async function DashboardPage() {
         <h1 className="text-4xl font-bold tracking-tight lg:ml-4">
           Welcome back{" "}
           <span className="capitalize text-primary ">
-            {user?.name.split(" ")[0]}
+            {user?.name.split(" ")[0] || user?.email.split("@")[0]}
           </span>
         </h1>
         <p className="text-muted-foreground lg:ml-4">
