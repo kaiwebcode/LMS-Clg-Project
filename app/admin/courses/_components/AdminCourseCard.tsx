@@ -73,6 +73,7 @@ export default function AdminCourseCard({ data }: AdminCourseCardProps) {
         width={500}
         height={300}
         className="w-full rounded-t-lg aspect-video h-full object-cover"
+        unoptimized
       />
 
       <CardContent className="p-4 ">

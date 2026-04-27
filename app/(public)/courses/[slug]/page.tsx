@@ -45,6 +45,7 @@ export default async function SlugPage({ params }: { params: Params }) {
             fill
             className="object-cover transition-transform duration-500 hover:scale-105"
             priority
+            unoptimized
           />
           <div className="absolute inset-0 bg-linear-to-t from-blue-500/20 to-transparent" />
         </div>
@@ -228,7 +229,7 @@ export default async function SlugPage({ params }: { params: Params }) {
               <span className="text-2xl font-bold text-primary">
                 {new Intl.NumberFormat("en-US", {
                   style: "currency",
-                  currency: "USD",
+                  currency: "INR",
                 }).format(course.price)}
               </span>
             </div>

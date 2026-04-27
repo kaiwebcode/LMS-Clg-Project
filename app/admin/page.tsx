@@ -24,7 +24,7 @@ export default async function AdminIndexPage() {
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Recent Courses</h2>
+          <h2 className="text-xl font-semibold mt-8">Recent Courses</h2>
 
           <Link className={buttonVariants()} href="/admin/courses">
             View All Courses
@@ -56,7 +56,7 @@ async function RenderRecentCourses() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {data.map((course) => (
-        <AdminCourseCard key={course.id} data={course} />
+        <AdminCourseCard key={course.id} data={course} /> 
       ))}
     </div>
   );
