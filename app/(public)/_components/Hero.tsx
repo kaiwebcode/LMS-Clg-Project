@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, PlayCircle, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import heroImg from "../../../public/hero-elearning.jpg";
 import Image from "next/image";
@@ -94,10 +94,7 @@ export function Hero() {
                 </Button>
               </Link>
 
-              <Button size="lg" variant="outline" className="gap-2">
-                <PlayCircle className="h-5 w-5" />
-                Watch Demo
-              </Button>
+            
             </div>
 
             {/* Stats */}
