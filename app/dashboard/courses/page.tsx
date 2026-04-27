@@ -17,7 +17,7 @@ export default async function CoursesPage() {
   );
 
   return (
-    <section className="space-y-4 lg:ml-4">
+    <section className="space-y-4 ">
       {/* ================= AVAILABLE ================= */}
       <div className="flex items-center justify-between">
         <h2 className="text-4xl font-semibold">Explore Courses</h2>

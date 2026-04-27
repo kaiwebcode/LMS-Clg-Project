@@ -24,10 +24,10 @@ export function PublicCourseCard({ data }: iAppProps) {
       <Image
         src={thumbnailUrl}
         alt="Thumbnail Image of Course"
-        layout="responsive"
         width={600}
         height={400}
         className="w-full rounded-t-xl aspect-video h-full object-cover"
+        unoptimized
       />
 
       <CardContent className="p-4">
